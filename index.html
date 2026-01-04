@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Canlı Konum Takibi</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Firebase + Konum -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDqs1-GYqpiou-vXvMS8kGN-s-79tM7iB8",
+    authDomain: "konum-takip-ec67f.firebaseapp.com",
+    databaseURL: "https://konum-takip-ec67f-default-rtdb.firebaseio.com",
+    projectId: "konum-takip-ec67f",
+    storageBucket: "konum-takip-ec67f.appspot.com",
+    messagingSenderId: "92870443325",
+    appId: "1:92870443325:web:e03043deae5a3c7b21c554"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // Harita
+  const map = L.map("map").setView([0, 0], 2);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  // Kullanıcı adı
+  const username = prompt("Kullanıcı adınızı girin:");
+
+  // Konumu Firebase'e gönder
+  if ("geolocation" in navigator) {
+    navigator.geolocation.watchPosition(p
