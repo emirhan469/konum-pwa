@@ -66,6 +66,7 @@
         lng,
         time: Date.now()
       });
+      map.setView([lat, lng], 16); // 🔥 BU SATIR
     });
   } else {
     alert("Konum desteklenmiyor");
